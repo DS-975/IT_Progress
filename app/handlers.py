@@ -4,12 +4,30 @@ from aiogram.types import Message, CallbackQuery, ChatMemberUpdated
 from pyexpat.errors import messages
 
 
+
+import calendar
+import datetime
+import asyncio
+from aiogram import Bot, Dispatcher, types
+from aiogram.fsm.storage.memory import MemoryStorage
+from aiogram.filters import Command
+from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup
+storage = MemoryStorage()
+
+
 from aiogram import Bot
 from config import TOKEN
 bot = Bot(token=TOKEN)
 
 
+import calendar
+import datetime
+
+
 import app.keyboards as kb
+
+
+
 
 router = Router()
 
@@ -105,11 +123,14 @@ async def cmd_dice(message: Message):
 
 
 
+
 @router.my_chat_member()
 async def on_bot_added(event: ChatMemberUpdated):
     if event.new_chat_member.status == "member":
         chat = event.chat
         await bot.send_message(chat.id, "Спасибо за приглашение!\n\nЯ готов работать.")
+
+
 
 
 # # Хэндлер для всех сообщений в группах
@@ -120,5 +141,31 @@ async def on_bot_added(event: ChatMemberUpdated):
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@router.message(Command('calendar'))
+async def send_calendar(message:Message):
+    await message.answer(text=f'Календарь на {calendar.month_name[int(datetime.datetime.now().strftime("%m"))]}  Выберите дату:',
+                         reply_markup = await kb.inline_calendar())
+
+
+@router.callback_query(F.data == '1')
+async def catalog(callback: CallbackQuery):
+    await callback.answer(f'Вы выбрали - 1')
 
 

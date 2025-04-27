@@ -12,7 +12,9 @@ from app.handlers import router
 # Объект бота
 bot = Bot(token=TOKEN)
 # Диспетчер
-dp = Dispatcher()
+from aiogram.fsm.storage.memory import MemoryStorage
+storage = MemoryStorage()
+dp = Dispatcher(storage=storage)
 
 
 
