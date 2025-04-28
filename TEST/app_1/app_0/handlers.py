@@ -1,31 +1,23 @@
 from aiogram import F, Router
-from aiogram.filters import CommandStart, Command
+from aiogram.filters import CommandStart
 from aiogram.types import Message, CallbackQuery, ChatMemberUpdated
-from pyexpat.errors import messages
 
-
-
-import calendar
-import datetime
-import asyncio
-from aiogram import Bot, Dispatcher, types
 from aiogram.fsm.storage.memory import MemoryStorage
 from aiogram.filters import Command
-from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup
+
 storage = MemoryStorage()
 
 
-from aiogram import Bot
-from config import TOKEN
-bot = Bot(token=TOKEN)
+# from aiogram import Bot
+# from config import TOKEN
+# bot = Bot(token=TOKEN)
 
 
 import calendar
 import datetime
 
 
-import app.keyboards as kb
-
+import app_0.keyboards as kb
 
 
 
@@ -78,8 +70,11 @@ async def cmd_start(message: Message):
 @router.message(Command('help'))
 async def get_help(message: Message):
     await message.answer('Список команд для этого бота\n'
-                         '/help\n'
-                         '/start')
+                         '\n'
+                         '/calendar - вывести календарь\n'
+                         '/dice - бросить кубик\n'
+                         '/help - просмотр команд\n'
+                         '/start - запуск бота\n')
 
 # меджек фильтр - F
 @router.message(F.text == 'Как дела?')
@@ -124,12 +119,12 @@ async def cmd_dice(message: Message):
 
 
 
-@router.my_chat_member()
-async def on_bot_added(event: ChatMemberUpdated):
-    if event.new_chat_member.status == "member":
-        chat = event.chat
-        await bot.send_message(chat.id, "Спасибо за приглашение!\n\nЯ готов работать.")
-
+# @router.my_chat_member()
+# async def on_bot_added(event: ChatMemberUpdated):
+#     if event.new_chat_member.status == "member":
+#         chat = event.chat
+#         await bot.send_message(chat.id, "Спасибо за приглашение!\n\nЯ готов работать.")
+#
 
 
 
@@ -168,4 +163,7 @@ async def send_calendar(message:Message):
 async def catalog(callback: CallbackQuery):
     await callback.answer(f'Вы выбрали - 1')
 
+
+# _____________________________________________________
+# Работа с
 

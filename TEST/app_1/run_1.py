@@ -4,8 +4,9 @@ import asyncio
 
 from aiogram import Bot, Dispatcher
 
-from config import TOKEN
-from app.handlers import router
+from config.config import TOKEN
+from app_0.handlers import router
+
 
 
 # Инициализация бота и диспетчера
@@ -15,6 +16,7 @@ bot = Bot(token=TOKEN)
 from aiogram.fsm.storage.memory import MemoryStorage
 storage = MemoryStorage()
 dp = Dispatcher(storage=storage)
+
 
 
 

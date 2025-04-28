@@ -1,4 +1,25 @@
 
+
+
+run.py - Главная точка проекта
+app/handlers - обработчики
+app/keyboards - кнопки
+Реализован Календарь по команде /calendar и др. /start /hlep
+
+test.py - Реализованно при команде /start 
+          и отправе имени пользователя, 
+          добавление пользователя в БД
+
+TEST/app_1/run_1.py - Вторая точка проекта
+TEST/app_1/handlers/handlers - обработчики
+TEST/app_1/keyboards/keyboards - кнопки
+
+
+
+
+
+
+
 Структура проекта :
 
 IT_Progress/
