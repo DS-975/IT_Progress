@@ -3,8 +3,8 @@ import logging
 import asyncio
 import sqlite3
 
-from bot_0.config import TOKEN
-from bot_0.app.handlers import router
+from config import TOKEN
+#from bot_0.app.handlers import router
 
 from aiogram import Bot, Dispatcher, types
 from aiogram.fsm.context import FSMContext
@@ -29,7 +29,7 @@ dp = Dispatcher(storage=storage)
 
 # Запуск процесса поллинга новых апдейтов
 async def main():
-    dp.include_router(router)
+    #dp.include_router(router)
     await dp.start_polling(bot)
 
 # Определяем состояния
@@ -42,9 +42,20 @@ async def set_user_state(state: FSMContext, state_name: State):
 
 
 
-
+# Обработчик команды /start
 @dp.message(Command('start'))
-async def start_0(message: types.Message, state: FSMContext):
+async def cmd_start(message: types.Message, state: FSMContext):
+    await message.answer('Привет, сейчас тебя зарегистрируем!\n''Введите ваше имя')
+    # Устанавливаем состояние ожидания имени пользователя через вспомогательную функцию
+    await set_user_state(state, Form.waiting_for_username)  # Устанавливаем состояние ожидания имени
+
+
+
+# Обработчик для получения имени пользователя
+@dp.message(Form.waiting_for_username)
+async def add_user_name_database(message: types.Message, state: FSMContext):
+    user_name = message.text
+    # Здесь вы можете добавить код для сохранения имени в базу данных
     conn = sqlite3.connect('../itproger.sql') # БД
     cur = conn.cursor() # Курсор
 
@@ -72,19 +83,54 @@ async def start_0(message: types.Message, state: FSMContext):
     conn.commit() # commit() - функция, которая синхронизирует все изменения, в файле itproger.sql (БД)
     cur.close() # Закрываем курсор,  close() - функция, которая закрывает соединение с БД
     conn.close() # Закрываем само соединение,  close() - функция, которая закрывает соединение с БД
-    await message.answer( 'Привет, сейчас тебя зарегистрируем!\n'
-                                          'Введите ваше имя')
-    # Устанавливаем состояние ожидания имени пользователя через вспомогательную функцию
-    await set_user_state(state, Form.waiting_for_username)
-    await add_user_name_database(state)
 
+    await message.answer(f"Имя '{user_name}' сохранено!")
 
-
-async def add_user_name_database(message: types.Message, state: FSMContext):
-    '''Вывод сообщения '''
-    user_name = message.text  # Получаем имя пользователя из сообщения
-    await message.answer(f"Ваше имя пользователя: {user_name}")
+    # Завершаем состояние
     await state.clear()  # Завершаем состояние
+
+#
+# @dp.message(Command('start'))
+# async def start_0(message: types.Message, state: FSMContext):
+#     conn = sqlite3.connect('../itproger.sql') # БД
+#     cur = conn.cursor() # Курсор
+#
+#     # Создаём новую таблицу в БД с пользователями
+#     cur.execute('CREATE TABLE '
+#                 'IF NOT EXISTS users '
+#                 '(id int auto_increment primary key,'
+#                 'name varchar(50),'
+#                 'pass varchar(50))') # метод execute позволяет выполнять SQL команды в БД
+#     # CREATE TABLE - создают таблицу
+#     # IF NOT EXISTS - если такой таблице ещё нет
+#     # users - название таблице
+#     # в () - указываем поля таблицы
+#     #   (id - идентификатор
+#     #       int - тип данных
+#     #           auto_increment - позволяет автоматически изменяться
+#     #                          primary key - первичный ключ
+#     #   name - поля для имине пользователя
+#     #        varchar - тип данных
+#     #               (50) - длина этого полня 50 символов
+#     #   pass - поле которое хранит пароль пользователя
+#     #        varchar - тип данных
+#     #               (50) - длина этого полня 50 символов
+#
+#     conn.commit() # commit() - функция, которая синхронизирует все изменения, в файле itproger.sql (БД)
+#     cur.close() # Закрываем курсор,  close() - функция, которая закрывает соединение с БД
+#     conn.close() # Закрываем само соединение,  close() - функция, которая закрывает соединение с БД
+#     await message.answer( 'Привет, сейчас тебя зарегистрируем!\n'
+#                                           'Введите ваше имя')
+#     # Устанавливаем состояние ожидания имени пользователя через вспомогательную функцию
+#     await set_user_state(state, Form.waiting_for_username)
+
+
+# async def add_user_name_database(message: types.Message, state: FSMContext):
+#     '''Вывод сообщения '''
+#     user_name = message.text  # Получаем имя пользователя из сообщения
+#     await message.answer(f"Ваше имя пользователя: {user_name}")
+#     await state.clear()  # Завершаем состояние
+
 
 # @dp.message(Form.waiting_for_username)
 # async def process_username(message: types.Message, state: FSMContext):

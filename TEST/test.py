@@ -72,8 +72,8 @@ async def start_0(message: types.Message, state: FSMContext):
     conn.commit() # commit() - функция, которая синхронизирует все изменения, в файле itproger.sql (БД)
     cur.close() # Закрываем курсор,  close() - функция, которая закрывает соединение с БД
     conn.close() # Закрываем само соединение,  close() - функция, которая закрывает соединение с БД
-    await message.answer( 'Привет, сейчас тебя зарегистрируем!\n'
-                                          'Введите ваше имя')
+    await message.answer( 'Привет, сейчас тебя зарегистрируем!\n''Введите ваше имя')
+
     # Устанавливаем состояние ожидания имени пользователя через вспомогательную функцию
     await set_user_state(state, Form.waiting_for_username)
 
