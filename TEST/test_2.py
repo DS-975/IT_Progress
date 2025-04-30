@@ -88,7 +88,8 @@ async def start_0(message: types.Message, state: FSMContext):
 @dp.message(Form.name)
 async def user_name(message: types.Message, state: FSMContext):
     global name
-    name = message.text.split()  # Получаем имя пользователя из сообщения
+    name = message.text # Получаем имя пользователя из сообщения
+
 
     await message.answer('Введите пароль')
 
@@ -98,7 +99,7 @@ async def user_name(message: types.Message, state: FSMContext):
 
 @dp.message(Form.password)
 async def user_pass(message: types.Message, state: FSMContext):
-    password = message.text.split()  # Получаем имя пользователя из сообщения
+    password = message.text  # Получаем имя пользователя из сообщения
 
     conn = sqlite3.connect('../itproger.sql')  # БД
     cur = conn.cursor()  # Курсор
@@ -109,6 +110,7 @@ async def user_pass(message: types.Message, state: FSMContext):
                 '(name, pass)'
                 'VALUES'
                 '("%s","%s")' % (name, password))  # метод execute позволяет выполнять SQL команды в БД
+                # '("%s","%s")' % (name, password))  # метод execute позволяет выполнять SQL команды в БД
     # INSERT INTO - добавляем новую запись
     #             users - в такую таблицу (users)
     # в () - указываем поля таблицы
@@ -136,9 +138,8 @@ markup = InlineKeyboardMarkup(inline_keyboard=[
     [InlineKeyboardButton(text='Список пользователей', callback_data='users')]])
 
 
-
 # меджек фильтр - F
-@dp.message(F.data == 'users')
+@dp.callback_query(F.data == 'users')
 async def how_are_you(callback: CallbackQuery):
     conn = sqlite3.connect('../itproger.sql')  # БД
     cur = conn.cursor()  # Курсор
