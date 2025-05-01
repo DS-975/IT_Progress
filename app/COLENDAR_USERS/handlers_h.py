@@ -12,11 +12,12 @@ import datetime
 
 
 import keyboards as kb
+from run_calendar import month_name_next
 
 
 
-
-router = Router()
+router_ = "some_value"  # Пример определения объекта router
+# router = Router()
 
 # handlers
 # Хэндлер на команду /start
@@ -30,14 +31,15 @@ async def cmd_start(message: Message):
 
 # async def catalog(callback: CallbackQuery):
 #     await callback.answer('Вы выбрали следующий месяц',
-@router.callback_query(F.data == '>_April')
+@router.callback_query(F.data == f'>_{month_name_next}')
 async def next_m(callback_query: CallbackQuery):
+
     # Удаляем предыдущее сообщение (если оно есть)
     await callback_query.message.delete()  # Удаляем сообщение, на которое нажали кнопку
 
     # Отправляем новое сообщение с кнопками
     await callback_query.message.answer('Вы выбрали следующий месяц',
-                         reply_markup = await kb.next_calendar()) # Выскакивает комментарий в центре и сразу пропадает
+                         reply_markup = await kb.next_calendar(month_name_next)) # Выскакивает комментарий в центре и сразу пропадает
 
     # Не забудьте ответить на колбэк, чтобы убрать "часики" у кнопки
     await callback_query.answer()
