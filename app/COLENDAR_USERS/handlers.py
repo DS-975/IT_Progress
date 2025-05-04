@@ -16,8 +16,7 @@ from run_calendar import month_name_next
 
 
 
-router_ = "some_value"  # Пример определения объекта router
-# router = Router()
+router = Router()
 
 # handlers
 # Хэндлер на команду /start
@@ -39,7 +38,7 @@ async def next_m(callback_query: CallbackQuery):
 
     # Отправляем новое сообщение с кнопками
     await callback_query.message.answer('Вы выбрали следующий месяц',
-                         reply_markup = await kb.next_calendar(month_name_next)) # Выскакивает комментарий в центре и сразу пропадает
+                         reply_markup = await kb.next_calendar()) # Выскакивает комментарий в центре и сразу пропадает
 
     # Не забудьте ответить на колбэк, чтобы убрать "часики" у кнопки
     await callback_query.answer()

@@ -5,12 +5,11 @@ import asyncio
 from aiogram import Bot, Dispatcher
 
 from config import TOKEN
-from handlers_h import router_
+from handlers import router
 
 import calendar
 import datetime
 
-print(router_)
 
 # Инициализация бота и диспетчера
 # Объект бота

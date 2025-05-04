@@ -59,7 +59,12 @@ async def start_0(message: types.Message, state: FSMContext):
                 'IF NOT EXISTS users '
                 '(id int auto_increment primary key,'
                 'name varchar(50),'
-                'pass varchar(50))') # метод execute позволяет выполнять SQL команды в БД
+                'pass varchar(50))')
+
+
+
+
+    # метод execute позволяет выполнять SQL команды в БД
     # CREATE TABLE - создают таблицу
     # IF NOT EXISTS - если такой таблице ещё нет
     # users - название таблице
